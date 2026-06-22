@@ -153,12 +153,8 @@
         </select>
       </div>
       <div class="field">
-        <label for="invitados">Número de invitados</label>
-        <input required id="invitados" type="number" min="1" max="10" value="1" name="invitados" inputmode="numeric" />
-      </div>
-      <div class="field">
         <label for="mensaje">Mensaje para Pepe (opcional)</label>
-        <textarea id="mensaje" name="mensaje" rows="3"></textarea>
+        <textarea id="mensaje" name="mensaje" rows="3" maxlength="150"></textarea>
       </div>
       <button type="submit" id="rsvp-submit">Confirmar asistencia</button>
     </form>
