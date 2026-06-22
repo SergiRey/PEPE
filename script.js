@@ -49,7 +49,7 @@ if (document.readyState === 'loading') {
 // 1. Crea un Google Sheet con columnas: timestamp, nombre, asistencia, invitados, mensaje
 // 2. Extensiones → Apps Script. Pega un doPost(e) que escriba e.parameter al sheet.
 // 3. Deploy → Web app → Anyone. Copia la URL aquí abajo.
-const SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/REEMPLAZA_CON_TU_URL/exec";
+const SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxXJY4BNZuf3sxnjzwFU-R7MyTg4Nm9P8rHA2lyIcp1icBmq7gijQ42Hec89nZdEQsS2w/exec";
 
 const form = document.getElementById('rsvp-form');
 const success = document.getElementById('rsvp-success');
@@ -61,7 +61,13 @@ form.addEventListener('submit', async (e) => {
   submitBtn.textContent = 'Enviando...';
   try {
     const data = new FormData(form);
-    await fetch(SHEETS_WEBHOOK_URL, { method: 'POST', mode: 'no-cors', body: data });
+    const params = new URLSearchParams(data);          // ← cambio clave
+    await fetch(SHEETS_WEBHOOK_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString()
+    });
   } catch (_) { /* no-cors: ignore */ }
   form.hidden = true;
   success.hidden = false;
