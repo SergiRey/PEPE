@@ -15,16 +15,34 @@ function tick() {
 tick();
 setInterval(tick, 1000);
 
-// ============ FADE-UP on scroll ============
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.style.animationPlayState = 'running';
-      io.unobserve(e.target);
+// ============ SCROLL REVEAL ============
+const revealSelectors = '.reveal, .reveal-left, .reveal-right, .reveal-scale, .cd-box';
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
     }
   });
-}, { threshold: 0.1 });
-// (Animations run by default; observer left as a no-op hook for future use.)
+}, {
+  threshold: 0.12,
+  rootMargin: '0px 0px -40px 0px'
+});
+
+// Observar todos los elementos al cargar
+function initReveal() {
+  document.querySelectorAll(revealSelectors).forEach(el => {
+    observer.observe(el);
+  });
+}
+
+// Esperar a que el DOM esté listo
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initReveal);
+} else {
+  initReveal();
+}
 
 // ============ RSVP → Google Sheets ============
 // 🔧 Reemplaza esta URL con tu Google Apps Script Web App URL.
